@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 const port = 3000 || process.env.PORT;
 const yahooStockAPI = require("yahoo-stock-api").default;
@@ -58,6 +59,15 @@ app.get("/getAll", async (req, res) => {
     };
   });
   return res.send(result);
+});
+
+app.get("/", (req, res) => {
+  app.use(
+    express.static(path.resolve(__dirname, "stock-api-project", "build"))
+  );
+  res.sendFile(
+    path.resolve(__dirname, "stock-api-project", "build", "index.html")
+  );
 });
 
 app.listen(port, () =>
